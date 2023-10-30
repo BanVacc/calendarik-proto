@@ -1,24 +1,39 @@
-syntax = "proto2";
+syntax = "proto3";
 
 message Artist {
-  required string name = 1;
-  optional string imageUrl = 2;
+  string name = 1;
+  optional string image_url = 2;
 }
 
 message Genre {
-  required string name = 1;
+  string name = 1;
 }
 
-message ArtistList {
-  repeated Artist artist = 1;
+message Track {
+  string name = 1;
+  repeated Artist artists = 2;
+  optional Genre genres = 3;
 }
 
-message GenreList {
-  repeated Genre genre = 1;
+message ArtistInfoRequest {
+  string artist_link = 1; // Ссылка на исполнителя в сервисе
 }
 
-message Song {
-  required string name = 1;
-  required ArtistList artists = 2;
-  optional GenreList genres = 3;
+message ArtistInfoResponse {
+  Artist artist = 1;
+  optional string artist_service_link = 2; // Ссылка на исполнителя в сервисе, позже понадобится для мапинга
+}
+
+message TrackInfoRequest {
+  string track_url = 1;
+}
+
+message TrackInfoResponse {
+  Track track = 1;
+  optional string track_service_link = 2; // Ссылка на трек в сервисе
+}
+
+service MusicInfoService {
+  rpc FindArtist(ArtistInfoRequest) returns (ArtistInfoResponse);
+  rpc FindTrack(TrackInfoRequest) returns (TrackInfoResponse);
 }
