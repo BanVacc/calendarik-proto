@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+message Artist {
+  required string name = 1;
+  optional string imageUrl = 2;
+}
+
+message Genre {
+  required string name = 1;
+}
+
+message ArtistList {
+  repeated Artist artist = 1;
+}
+
+message GenreList {
+  repeated Genre genre = 1;
+}
+
+message Song {
+  required string name = 1;
+  required ArtistList artists = 2;
+  optional GenreList genres = 3;
+}
