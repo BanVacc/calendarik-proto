@@ -2,7 +2,7 @@ syntax = "proto3";
 
 message Artist {
   string name = 1;
-  optional string image_url = 2;
+  string image_url = 2;
 }
 
 message Genre {
@@ -12,7 +12,7 @@ message Genre {
 message Track {
   string name = 1;
   repeated Artist artists = 2;
-  optional Genre genres = 3;
+  Genre genres = 3;
 }
 
 message ArtistInfoRequest {
@@ -21,7 +21,7 @@ message ArtistInfoRequest {
 
 message ArtistInfoResponse {
   Artist artist = 1;
-  optional string artist_service_link = 2; // Ссылка на исполнителя в сервисе, позже понадобится для мапинга
+  string artist_service_link = 2; // Ссылка на исполнителя в сервисе, позже понадобится для мапинга
 }
 
 message TrackInfoRequest {
@@ -30,7 +30,7 @@ message TrackInfoRequest {
 
 message TrackInfoResponse {
   Track track = 1;
-  optional string track_service_link = 2; // Ссылка на трек в сервисе
+  string track_service_link = 2; // Ссылка на трек в сервисе
 }
 
 service MusicInfoService {
