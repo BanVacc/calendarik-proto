@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 // Этот .proto файл описывает схему взаимодействия с музыкальными сервисами,
 // позволяя получать информацию о композициях, исполнителях, жанрах и др. музыкальных данных.
@@ -6,7 +6,7 @@ syntax = "proto3";
 // Сообщение описывает информацию об исполнителе, получаемую из музыкального сервиса.
 message ArtistInfo {
   // Имя исполнителя в сервисе
-  string name = 1;
+  required string name = 1;
 
   // URL аватара исполнителя (опциональный параметр)
   optional string image_url = 2;
@@ -18,7 +18,7 @@ message ArtistInfo {
 // Сообщение описывает информацию о жанре музыки, получаемую из музыкального сервиса.
 message GenreInfo {
   // Название жанра
-  string name = 1;
+  required string name = 1;
 
   // URL жанра в сервисе (опциональный параметр)
   optional string service_url = 2;
@@ -27,7 +27,7 @@ message GenreInfo {
 // Сообщение описывает информацию о композиции, включая исполнителей и жанры.
 message TrackInfo {
   // Название композиции
-  string name = 1;
+  required string name = 1;
 
   // Исполнители композиции
   repeated ArtistInfo artists = 2;
@@ -37,29 +37,32 @@ message TrackInfo {
 
   // URL трека в сервисе (опциональный параметр)
   optional string service_url = 4;
+
+  // URL обложки композиции (опциональный параметр)
+  optional string image_url = 5;
 }
 
 // Сообщение используется для запроса информации об исполнителе.
 message ArtistInfoRequest {
   // Строка содержащая ссылку на исполнителя в сервисе
-  string artist_link = 1;
+  required string artist_link = 1;
 }
 
 // Сообщение содержит информацию об исполнителе,
 // возвращаемую в ответ на запрос.
 message ArtistInfoResponse {
-  ArtistInfo artist = 1;
+  required ArtistInfo artist = 1;
 }
 
 // Сообщение используется для запроса информации о треке.
 message TrackInfoRequest {
   // Строка содержащая ссылку на исполнителя в сервисе
-  string track_url = 1;
+  required string track_url = 1;
 }
 
 // Сообщение содержит информацию о треке, возвращаемую в ответ на запрос.
 message TrackInfoResponse {
-  TrackInfo track = 1;
+  required TrackInfo track = 1;
 }
 
 // Определение службы MusicInfoService с двумя RPC методами для поиска информации об исполнителе и треке.
