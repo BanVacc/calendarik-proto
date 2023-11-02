@@ -1,39 +1,70 @@
 syntax = "proto3";
 
-message Artist {
+// Этот .proto файл описывает схему взаимодействия с музыкальными сервисами,
+// позволяя получать информацию о композициях, исполнителях, жанрах и др. музыкальных данных.
+
+// Сообщение описывает информацию об исполнителе, получаемую из музыкального сервиса.
+message ArtistInfo {
+  // Имя исполнителя в сервисе
   string name = 1;
-  string image_url = 2;
+
+  // URL аватара исполнителя (опциональный параметр)
+  optional string image_url = 2;
+
+  // URL исполнителя в сервисе (опциональный параметр)
+  optional string service_url = 3;
 }
 
-message Genre {
+// Сообщение описывает информацию о жанре музыки, получаемую из музыкального сервиса.
+message GenreInfo {
+  // Название жанра
   string name = 1;
+
+  // URL жанра в сервисе (опциональный параметр)
+  optional string service_url = 2;
 }
 
-message Track {
+// Сообщение описывает информацию о композиции, включая исполнителей и жанры.
+message TrackInfo {
+  // Название композиции
   string name = 1;
-  repeated Artist artists = 2;
-  Genre genres = 3;
+
+  // Исполнители композиции
+  repeated ArtistInfo artists = 2;
+
+  // Жанры композиции
+  repeated GenreInfo genres = 3;
+
+  // URL трека в сервисе (опциональный параметр)
+  optional string service_url = 4;
 }
 
+// Сообщение используется для запроса информации об исполнителе.
 message ArtistInfoRequest {
-  string artist_link = 1; // Ссылка на исполнителя в сервисе
+  // Строка содержащая ссылку на исполнителя в сервисе
+  string artist_link = 1;
 }
 
+// Сообщение содержит информацию об исполнителе,
+// возвращаемую в ответ на запрос.
 message ArtistInfoResponse {
-  Artist artist = 1;
-  string artist_service_link = 2; // Ссылка на исполнителя в сервисе, позже понадобится для мапинга
+  ArtistInfo artist = 1;
 }
 
+// Сообщение используется для запроса информации о треке.
 message TrackInfoRequest {
+  // Строка содержащая ссылку на исполнителя в сервисе
   string track_url = 1;
 }
 
+// Сообщение содержит информацию о треке, возвращаемую в ответ на запрос.
 message TrackInfoResponse {
-  Track track = 1;
-  string track_service_link = 2; // Ссылка на трек в сервисе
+  TrackInfo track = 1;
 }
 
+// Определение службы MusicInfoService с двумя RPC методами для поиска информации об исполнителе и треке.
 service MusicInfoService {
   rpc FindArtist(ArtistInfoRequest) returns (ArtistInfoResponse);
   rpc FindTrack(TrackInfoRequest) returns (TrackInfoResponse);
 }
+
